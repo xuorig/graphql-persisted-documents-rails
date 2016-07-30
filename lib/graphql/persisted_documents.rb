@@ -8,7 +8,7 @@ require "graphql/persisted_documents/persister"
 module Graphql
   module PersistedDocuments
     class << self
-      attr_reader :configuration
+      attr_accessor :configuration
 
       def configure
         @configuration ||= Configuration.new

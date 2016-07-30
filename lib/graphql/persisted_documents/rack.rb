@@ -6,7 +6,7 @@ module Graphql
       end
 
       def call(env)
-        if env['PATH_INFO'] == '/persist'
+        if env['PATH_INFO'] == PersistedDocuments.configuration.path
           request = ::Rack::Request.new(env)
           document = request.params['document']
 

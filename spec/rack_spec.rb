@@ -11,6 +11,11 @@ describe Graphql::PersistedDocuments::Rack do
 
   before do
     ENV['RACK_ENV'] = "test"
+
+    Graphql::PersistedDocuments.configuration = nil
+    Graphql::PersistedDocuments.configure do |config|
+      config.schema = TestSchema
+    end
   end
 
   context "when no document param is present" do
@@ -30,12 +35,6 @@ describe Graphql::PersistedDocuments::Rack do
   end
 
   context "when the document is not valid according to Schema" do
-    before do
-      Graphql::PersistedDocuments.configure do |config|
-        config.schema = TestSchema
-      end
-    end
-
     it "responds with validation errors" do
       get '/persist?document=query invalidQuery { invalidField }'
       expect(last_response.status).to eq(422)
@@ -46,7 +45,7 @@ describe Graphql::PersistedDocuments::Rack do
   context "when the persit_validated_document proc is not configured" do
     before do
       Graphql::PersistedDocuments.configure do |config|
-        config.schema = TestSchema
+        config.persist_validated_document = nil
       end
     end
 
@@ -60,7 +59,6 @@ describe Graphql::PersistedDocuments::Rack do
   context "when the query is valid" do
     before do
       Graphql::PersistedDocuments.configure do |config|
-        config.schema = TestSchema
         config.persist_validated_document = lambda do |document|
           return 1 # Return a dummy id
         end
@@ -69,6 +67,24 @@ describe Graphql::PersistedDocuments::Rack do
 
     it "responds with the document_id" do
       get '/persist?document=query invalidQuery { validField }'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq("{\"document_id\":1}")
+    end
+  end
+
+  context "when a custom path is set" do
+    before do
+      Graphql::PersistedDocuments.configure do |config|
+        config.persist_validated_document = lambda do |document|
+          return 1 # Return a dummy id
+        end
+
+        config.path = '/graphql/my/persist'
+      end
+    end
+
+    it "responds at that endpoint" do
+      get '/graphql/my/persist?document=query invalidQuery { validField }'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq("{\"document_id\":1}")
     end

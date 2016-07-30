@@ -1,7 +1,17 @@
 module Graphql
   module PersistedDocuments
     class Configuration
-      attr_accessor :schema, :persist_validated_document
+      DEFAULT_PATH = '/persist'
+
+      attr_accessor(
+        :schema,
+        :persist_validated_document,
+        :path
+      )
+
+      def initialize
+        @path = DEFAULT_PATH
+      end
     end
   end
 end
