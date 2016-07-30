@@ -2,7 +2,7 @@
 
 ### What is a GraphQL Document ?
 
-From the GraphQl spec:
+From the GraphQL spec:
 
 > A GraphQL document is defined as a syntactic grammar where terminal symbols are tokens (indivisible lexical units). These tokens are defined in a lexical grammar which matches patterns of source characters (defined by a double‐colon ::)
 
@@ -119,6 +119,12 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/xuorig/graphql-persisted_documents. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+## TODO
+
+  - [ ] Better error messages
+  - [ ] Allow custom path
+  - [ ] Add unit tests for persister
 
 
 ## License
