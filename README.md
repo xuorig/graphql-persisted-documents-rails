@@ -36,10 +36,13 @@ Or install it yourself as:
 
 Add the engine to routes.rb:
 
+```ruby
 # config/routes.rb
+
 Rails.application.routes.draw do
   mount Graphql::PersistedDocuments::Engine, at: "/graphql"
 end
+```
 
 ### Configuration
 
