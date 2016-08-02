@@ -1,27 +1,4 @@
 # Graphql::PersistedDocuments
-Short description and motivation.
-
-## Usage
-How to use my plugin.
-
-## Installation
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'graphql-persisted_documents'
-```
-
-And then execute:
-```bash
-$ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install graphql-persisted_documents
-```
-
-# Graphql::PersistedDocuments
 
 ### What is a GraphQL Document ?
 
@@ -64,7 +41,7 @@ Rails.application.routes.draw do
   mount Graphql::PersistedDocuments::Engine, at: "/graphql"
 end
 
-## Configuring
+### Configuration
 
 The middleware currently required two things to be defined in the config:
   - `config.schema`: A GraphQL Schema, defined by the `graphql` gem.
