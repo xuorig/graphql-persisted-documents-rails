@@ -1,20 +1,10 @@
-require 'graphql/persisted_documents'
-
-require 'rack/test'
-require 'pry'
-
 RSpec.configure do |config|
-  config.order = :random
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
   end
 end
-
-class Graphql::PersistedDocuments::TestingRackApp
-  def call(env)
-    [200, {"Content-Type" => "text/plain"}, ["Hello world!"]]
-  end
-end
-
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
-

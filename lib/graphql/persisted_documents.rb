@@ -1,8 +1,5 @@
-require "graphql"
-
 require "graphql/persisted_documents/configuration"
-require "graphql/persisted_documents/version"
-require "graphql/persisted_documents/rack"
+require "graphql/persisted_documents/engine"
 require "graphql/persisted_documents/persister"
 
 module Graphql

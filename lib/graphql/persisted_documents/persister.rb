@@ -1,8 +1,8 @@
 module Graphql
   module PersistedDocuments
     class Persister
-      InvalidDocument = Class.new(StandardError)
-      MissingPersistValidatedDocument = Class.new(StandardError)
+      InvalidDocumentError = Class.new(StandardError)
+      MissingPersistValidatedDocumentError = Class.new(StandardError)
       ParseError = Class.new(StandardError)
 
       attr_reader :query_string, :errors
@@ -12,17 +12,17 @@ module Graphql
         @errors = []
       end
 
-      def persist!
+      def persist
         document = GraphQL.parse(query_string)
         query = GraphQL::Query.new(config.schema, document: document)
         perform_validation(query)
 
-        raise InvalidDocument unless errors.empty?
+        raise InvalidDocumentError unless errors.empty?
 
         user_persister = config.persist_validated_document
         return user_persister.call(document) if user_persister
 
-        raise MissingPersistValidatedDocument
+        raise MissingPersistValidatedDocumentError
       rescue GraphQL::ParseError
         raise ParseError
       end
@@ -31,7 +31,8 @@ module Graphql
 
       def perform_validation(query)
         validation_result = validator.validate(query)
-        @errors = validation_result[:errors]
+        validation_errors = validation_result[:errors] || []
+        @errors = validation_errors.map { |error| error["message"] }
       end
 
       def config
